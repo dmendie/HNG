@@ -1,0 +1,68 @@
+name: 1.0.$(Rev:r)
+
+trigger:
+- main
+
+pool:
+ vmImage: windows-latest
+
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'Any CPU'
+  System.Debug: true
+
+parameters:
+- name: buildConfiguration # name of the parameter; required
+  default: 'Release'
+- name: projectFolder
+  default: ' '
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Restore .NET Core dependencies'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+   
+# - task: NuGetCommand@2
+#   displayName: 'Restore Mailer (.NET 4.8) dependencies'
+#   inputs:
+#     command: 'restore'
+#     restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  displayName: 'Build Database Project'
+  inputs:
+    solution: 'HNG.Database.sln'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: Run unit tests
+#   inputs:
+#     command: test
+#     projects: '**/*.Unit.Tests.csproj'
+#     arguments: '--configuration $(BuildConfiguration)'
+#     publishTestResults: true
+
+- task: DotNetCoreCLI@2
+  displayName: Publish Client Api
+  inputs:
+    command: publish
+    publishWebProjects: true
+    projects: '**/HNG.Api.Client.csproj'
+    zipAfterPublish: True
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+
+- task: CopyFiles@2
+  displayName: 'Copy Dacpac to Artifact'
+  inputs:
+    SourceFolder: 'src\HNG.Database\bin\$(BuildConfiguration)'
+    Contents: 'HNG.Database.dacpac'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
