@@ -22,8 +22,6 @@ namespace HNG.Business
             .EnsureNoHtml(nameof(VisitorName), VisitorName ?? string.Empty, "Visitor name must not contain html content*");
             validator.ThrowValidationExceptionIfInvalid();
 
-            var randomTemp = Random.Shared.Next(-20, 55);
-
             var ipdetail = new VisitorIPAddressDTO
             {
                 Client_Ip = Ip!,
