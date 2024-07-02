@@ -1,5 +1,4 @@
-﻿using HNG.Abstractions.Helpers;
-using HNG.Abstractions.Models;
+﻿using HNG.Abstractions.Models;
 using IPinfo;
 using IPinfo.Models;
 using Microsoft.Extensions.Caching.Memory;
@@ -43,21 +42,21 @@ namespace HNG.Api.Client.Extensions
         /// </summary>
         public async Task<IPResponse?> GetIpInfoAsync(string ip)
         {
-            var ipRange = IpRangeHelper.GetIpRange(ip, PrefixLength);
+            //var ipRange = IpRangeHelper.GetIpRange(ip, PrefixLength);
 
-            if (_cache.TryGetValue(ipRange, out IPResponse? cachedResponse))
-            {
-                return cachedResponse;
-            }
+            //if (_cache.TryGetValue(ipRange, out IPResponse? cachedResponse))
+            //{
+            //    return cachedResponse;
+            //}
 
-            //localhost range
-            if (ipRange == "0.0.0.0")
-            {
-                return new IPResponse();
-            }
+            ////localhost range
+            //if (ipRange == "0.0.0.0")
+            //{
+            //    return new IPResponse();
+            //}
 
             var response = await _ipInfoClient.IPApi.GetDetailsAsync(ip);
-            _cache.Set(ipRange, response, _cacheDuration);
+            //_cache.Set(ipRange, response, _cacheDuration);
             return response;
         }
 
@@ -66,19 +65,19 @@ namespace HNG.Api.Client.Extensions
         /// </summary>
         public async Task<WeatherInfo?> GetWeatherInfoAsync(string Ip, string? Lat, string? Lon)
         {
-            var ipRange = IpRangeHelper.GetIpRange(Ip, PrefixLength);
-            if (_cache.TryGetValue(ipRange, out WeatherInfo? cachedResponse))
-            {
-                return cachedResponse;
-            }
+            //var ipRange = IpRangeHelper.GetIpRange(Ip, PrefixLength);
+            //if (_cache.TryGetValue(ipRange, out WeatherInfo? cachedResponse))
+            //{
+            //    return cachedResponse;
+            //}
 
-            if (string.IsNullOrWhiteSpace(Lat) || string.IsNullOrWhiteSpace(Lon))
-            {
-                return null;
-            }
+            //if (string.IsNullOrWhiteSpace(Lat) || string.IsNullOrWhiteSpace(Lon))
+            //{
+            //    return null;
+            //}
 
             var weatherInfo = await _openWeatherMapService.GetCurrentWeatherAsync(Convert.ToDouble(Lat), Convert.ToDouble(Lon));
-            _cache.Set(ipRange, weatherInfo, _cacheWeatherDuration);
+            //_cache.Set(ipRange, weatherInfo, _cacheWeatherDuration);
             return weatherInfo;
         }
     }
