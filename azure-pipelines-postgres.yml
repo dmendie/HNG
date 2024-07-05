@@ -44,6 +44,11 @@ steps:
     ls -la $(Build.ArtifactStagingDirectory)/postgres-scripts
   displayName: 'Convert SQL Server scripts to PostgreSQL'
 
+- script: |
+    echo "Verifying contents of $(Build.ArtifactStagingDirectory)/postgres-scripts"
+    ls -la $(Build.ArtifactStagingDirectory)/postgres-scripts
+  displayName: 'Verify artifact contents'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/postgres-scripts'
