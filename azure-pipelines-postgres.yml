@@ -7,9 +7,13 @@ pool:
 steps:
 - script: |
     sudo apt-get update
-    sudo apt-get install -y pgloader
     sudo apt-get install -y dos2unix
-  displayName: 'Install pgloader and dos2unix'
+    sudo apt-get install -y perl
+    sudo apt-get install -y libdbd-pg-perl libdbi-perl libipc-run-perl
+    sudo cpan -i Sort::Naturally
+    wget https://raw.githubusercontent.com/dalibo/sqlserver2pgsql/master/sqlserver2pgsql.pl
+    chmod +x sqlserver2pgsql.pl
+  displayName: 'Install dependencies and sqlserver2pgsql'
 
 - script: |
     echo "Listing files in $(Build.SourcesDirectory)/src/HNG.Database/Schemas"
@@ -23,7 +27,7 @@ steps:
     for file in $(find $(Build.SourcesDirectory)/src/HNG.Database -name "*.sql"); do
       echo "Processing $file"
       dos2unix $file
-      pgloader $file postgres://postgres:13243546@test01.eminenttechnology.com:5432/postgres
+      ./sqlserver2pgsql.pl -f $file -b $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql
       if [ $? -ne 0 ]; then
         echo "Error processing $file"
         exit 1
