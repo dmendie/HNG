@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    sudo apt-get update
+    sudo apt-get install -y pgloader
+    sudo apt-get install -y dos2unix
+  displayName: 'Install pgloader and dos2unix'
+
+- script: |
+    mkdir $(Build.ArtifactStagingDirectory)/postgres-scripts
+    for file in $(Build.SourcesDirectory)/src/HNG.Database/*.sql; do
+      dos2unix $file
+      pgloader --type sqlserver --source $file --target $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql
+    done
+  displayName: 'Convert SQL Server scripts to PostgreSQL'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/postgres-scripts'
+    ArtifactName: 'postgres-scripts'

@@ -1,6 +1,6 @@
-﻿using System.Data.Common;
-using System.Data.SqlClient;
-using HNG.Abstractions.Models;
+﻿using HNG.Abstractions.Models;
+using Npgsql;
+using System.Data.Common;
 
 namespace HNG.Data.Sql
 {
@@ -14,7 +14,7 @@ namespace HNG.Data.Sql
 
         protected DbConnection GetDefaultConnection()
         {
-            return new SqlConnection(AppSettings.ConnectionStrings.ConnectionString);
+            return new NpgsqlConnection(AppSettings.ConnectionStrings.ConnectionString);
         }
     }
 }

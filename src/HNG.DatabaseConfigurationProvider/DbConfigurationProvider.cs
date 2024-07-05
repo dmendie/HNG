@@ -1,6 +1,6 @@
-﻿using System.Data;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Npgsql;
+using System.Data;
 
 namespace HNG.DatabaseConfigurationProvider
 {
@@ -36,11 +36,11 @@ namespace HNG.DatabaseConfigurationProvider
 
         private IDictionary<string, string?> ReadDatabaseSettings(bool isReload)
         {
-            using var connection = new SqlConnection(Source.ConnectionString);
-            var command = new SqlCommand("Configuration_List", connection);
+            using var connection = new NpgsqlConnection(Source.ConnectionString);
+            var command = new NpgsqlCommand("Configuration_List", connection);
             command.CommandType = CommandType.StoredProcedure;
 
-            command.Parameters.Add(new SqlParameter("@Entity", Source.AppName));
+            command.Parameters.Add(new NpgsqlParameter("@Entity", Source.AppName));
 
             var settings = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
             try
