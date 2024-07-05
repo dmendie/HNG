@@ -21,8 +21,13 @@ steps:
 - script: |
     mkdir -p $(Build.ArtifactStagingDirectory)/postgres-scripts
     for file in $(find $(Build.SourcesDirectory)/src/HNG.Database -name "*.sql"); do
+      echo "Processing $file"
       dos2unix $file
-      pgloader --type sqlserver --source $file --target $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql
+      pgloader --verbose --type sqlserver --source $file --target $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql
+      if [ $? -ne 0 ]; then
+        echo "Error processing $file"
+        exit 1
+      fi
     done
   displayName: 'Convert SQL Server scripts to PostgreSQL'
 
