@@ -5,11 +5,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
-
 - script: |
     sudo apt-get update
     sudo apt-get install -y pgloader
@@ -17,7 +12,12 @@ steps:
   displayName: 'Install pgloader and dos2unix'
 
 - script: |
-    mkdir $(Build.ArtifactStagingDirectory)/postgres-scripts
+    echo "Listing files in $(Build.SourcesDirectory)/src/HNG.Database"
+    ls -la $(Build.SourcesDirectory)/src/HNG.Database
+  displayName: 'List files in HNG.Database directory'
+
+- script: |
+    mkdir -p $(Build.ArtifactStagingDirectory)/postgres-scripts
     for file in $(Build.SourcesDirectory)/src/HNG.Database/*.sql; do
       dos2unix $file
       pgloader --type sqlserver --source $file --target $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql

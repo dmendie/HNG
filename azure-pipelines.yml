@@ -30,12 +30,12 @@ steps:
 #     command: 'restore'
 #     restoreSolution: '$(solution)'
 
-# - task: VSBuild@1
-#   displayName: 'Build Database Project'
-#   inputs:
-#     solution: 'HNG.Database.sln'
-#     platform: '$(buildPlatform)'
-#     configuration: '$(buildConfiguration)'
+- task: VSBuild@1
+  displayName: 'Build Database Project'
+  inputs:
+    solution: 'HNG.Database.sln'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 # - task: DotNetCoreCLI@2
 #   displayName: Run unit tests
