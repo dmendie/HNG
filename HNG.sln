@@ -9,6 +9,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "HNG.Database", "src\HNG.Dat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__solution", "__solution", "{30A7DA74-43D1-49E3-A00A-4B618E0F381D}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines-postgres.yml = azure-pipelines-postgres.yml
 		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
