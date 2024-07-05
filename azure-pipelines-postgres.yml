@@ -37,7 +37,11 @@ steps:
         echo "Error processing $file"
         exit 1
       fi
+      echo "Generated $(Build.ArtifactStagingDirectory)/postgres-scripts/$(basename $file .sql)_pg.sql"
     done
+
+    echo "Listing generated files"
+    ls -la $(Build.ArtifactStagingDirectory)/postgres-scripts
   displayName: 'Convert SQL Server scripts to PostgreSQL'
 
 - task: PublishBuildArtifacts@1
