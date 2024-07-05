@@ -10,10 +10,12 @@ steps:
     sudo apt-get install -y dos2unix
     sudo apt-get install -y perl
     sudo apt-get install -y libdbd-pg-perl libdbi-perl libipc-run-perl
+
     echo "Configuring CPAN non-interactively"
-    echo "o conf prerequisites_policy follow" | cpan
-    echo "o conf commit" | cpan
-    sudo cpan -i Sort::Naturally
+    PERL_MM_USE_DEFAULT=1 cpan App::cpanminus
+    cpanm --notest Log::Log4perl
+    cpanm --notest Sort::Naturally
+
     wget https://raw.githubusercontent.com/dalibo/sqlserver2pgsql/master/sqlserver2pgsql.pl
     chmod +x sqlserver2pgsql.pl
   displayName: 'Install dependencies and sqlserver2pgsql'
