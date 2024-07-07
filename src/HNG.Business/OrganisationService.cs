@@ -24,8 +24,15 @@ namespace HNG.Business
 
         public async Task<T> GetById<T>(string UserId, string OrgId)
         {
-            var data = await OrganisationDataService.GetById(null, UserId, OrgId);
-            if (data is null)
+            var data = await OrganisationDataService.GetById(null, OrgId);
+            if (data == null)
+            {
+                var noVal = MappingService.Map<T>(new OrganisationDTO());
+                return noVal;
+            }
+
+            var ValidateAccess = await OrganisationDataService.GetById(null, UserId, OrgId);
+            if (ValidateAccess is null)
             {
                 throw new AccessViolationException("You are not a member of the specified Organisation");
             }

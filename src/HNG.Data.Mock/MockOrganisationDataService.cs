@@ -30,6 +30,12 @@ namespace HNG.Data.Mock
             return Task.FromResult(data);
         }
 
+        public Task<Organisation?> GetById(IDbTransaction? transaction, string OrgId)
+        {
+            var data = Organisations.FirstOrDefault(j => j.OrgId == OrgId);
+            return Task.FromResult(data);
+        }
+
         public Task<string> Insert(IDbTransaction? transaction, string UserId, string Name, string Description, string CreatedBy)
         {
             var newOrgId = Guid.NewGuid().ToString();

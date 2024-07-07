@@ -1,5 +1,4 @@
 ﻿using HNG.Abstractions.Contracts;
-using HNG.Abstractions.Enums;
 using HNG.Abstractions.Services.Business;
 using HNG.Business.Unit.Tests.Builders;
 
@@ -12,7 +11,7 @@ namespace HNG.Business.Unit.Tests
         public async Task User_GetById()
         {
             //arrange
-            var service = Build();
+            var service = BuildUserService();
 
             var userId = "7acbba30-a989-4aa4-c702-08db3920bd4e";
 
@@ -27,71 +26,84 @@ namespace HNG.Business.Unit.Tests
         }
 
         [Test]
-        public async Task User_Search()
+        public async Task User_Register_Successful()
         {
             //arrange
-            var service = Build();
+            var service = BuildUserService();
 
-            var firstName = "Firstname";
-            var lastname = "Lastname";
-            var userName = "username";
-            var emailAddress = "";
-            var status = DefaultStatusType.Active;
-
-            //act
-            //var actual = await service.Search<UserDTO?>(firstName, lastname, userName, status, emailAddress);
-
-            ////assert
-            //Assert.Multiple(() =>
-            //{
-            //    Assert.That(actual, Is.Not.Null);
-            //});
-        }
-
-
-        [Test]
-        public async Task User_Search_Returns_All_Users()
-        {
-            //arrange
-            var service = Build();
-
-            var expectedCount = 1;
-
-            //act
-            //var actual = await service.Search<UserDTO?>(null, null, null, null, null);
-
-            ////assert
-            //Assert.Multiple(() =>
-            //{
-            //    Assert.That(actual, Is.Not.Null);
-            //    Assert.That(actual?.Count(), Is.GreaterThanOrEqualTo(expectedCount));
-            //});
-        }
-
-        [Test]
-        public async Task User_CreateUser()
-        {
-            //arrange
-            var service = Build();
-
-            var newUser = new UserCreationDTO
+            var model = new UserCreationDTO
             {
-                Phone = "newusername",
-                Firstname = "namefirst",
-                Lastname = "namelast",
-                Email = "namefirst@fbn.com",
-                Password = "123456"
+                Email = "user1@mail.com",
+                Firstname = "Friday",
+                Lastname = "Sona",
+                Password = "1234356",
+                Phone = "07046512342"
             };
 
             //act
-            //var actual = await service.CreateUser<UserDTO?>(newUser, GetContext);
+            var (status, actual) = await service.Register<ResponseDataDTO>(model);
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(status, Is.EqualTo(200));
+                Assert.That(actual?.Data, Is.Not.Null);
+            });
+        }
+
+
+        [Test]
+        public async Task User_Register_IsNot_Successful()
+        {
+            //arrange
+            var service = BuildUserService();
+
+            var model = new UserCreationDTO
+            {
+                Email = "user1@mail.com",
+                Firstname = "Friday",
+                Lastname = "Sona",
+                Password = "1234356",
+                Phone = "07046512342"
+            };
+
+            //act
+            var (status, actual) = await service.Register<ResponseDataDTO>(model);
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(status, Is.EqualTo(400));
+                Assert.That(actual?.Data, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task Auth_User_Generate_Token()
+        {
+            //arrange
+            var auth = BuildAuthService();
+
+            var model = new UserDTO
+            {
+                Email = "tester1@mail.com",
+                FirstName = "Friday",
+                LastName = "Sona",
+                Phone = "07046512342",
+                UserId = "7acbba30-a989-4aa4-c702-08db3920bd4e"
+            };
+
+            //act
+            var actual = await auth.CreateToken(model);
 
             ////assert
-            //Assert.Multiple(() =>
-            //{
-            //    Assert.That(actual, Is.Not.Null);
-            //    Assert.That(actual?.FirstName, Is.EqualTo(newUser.Firstname));
-            //});
+            Assert.Multiple(() =>
+            {
+                Assert.That(actual, Is.Not.Null);
+                Assert.That(actual.AccessToken, Is.Not.Null);
+                Assert.That(actual.User, Is.Not.Null);
+                Assert.That(actual.User.UserId, Is.EqualTo(model.UserId));
+            });
         }
 
         //[Test]
@@ -160,9 +172,14 @@ namespace HNG.Business.Unit.Tests
         //    });
         //}
 
-        public IUserService Build()
+        public IUserService BuildUserService()
         {
             return DefaultServiceBuilder.Build<IUserService>();
+        }
+
+        public IAuthUserService BuildAuthService()
+        {
+            return DefaultServiceBuilder.Build<IAuthUserService>();
         }
     }
 }

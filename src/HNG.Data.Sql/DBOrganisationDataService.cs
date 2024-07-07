@@ -12,6 +12,24 @@ namespace HNG.Data.Sql
         {
         }
 
+        public async Task<Organisation?> GetById(IDbTransaction? transaction, string OrgId)
+        {
+            Organisation? retVal;
+
+            using DbConnection connection = GetDefaultConnection();
+            await connection.OpenAsync();
+
+            // specify stored procedure parameters
+            var parameters = new DynamicParameters();
+            parameters.Add("@OrgId", OrgId, DbType.String, ParameterDirection.Input);
+
+            //execute 
+            var query = await connection.QueryAsync<Organisation>("Organisation_GetByIdOnly", parameters, transaction, commandType: CommandType.StoredProcedure);
+
+            retVal = query.SingleOrDefault();
+            return retVal;
+        }
+
         public async Task<Organisation?> GetById(IDbTransaction? transaction, string UserId, string OrgId)
         {
             Organisation? retVal;
