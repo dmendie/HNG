@@ -14,6 +14,7 @@
     <ProjectReference Include="..\HNG.Business\HNG.Business.csproj" />
     <ProjectReference Include="..\HNG.Data.Mock\HNG.Data.Mock.csproj" />
     <ProjectReference Include="..\HNG.Data.Sql\HNG.Data.Sql.csproj" />
+    <ProjectReference Include="..\HNG.Identity\HNG.Identity.csproj" />
     <ProjectReference Include="..\HNG.Mappers\HNG.Mappers.csproj" />
     <ProjectReference Include="..\HNG.ServiceLogProvider\HNG.ServiceLogProvider.csproj" />
   </ItemGroup>

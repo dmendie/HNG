@@ -79,8 +79,24 @@
     <Build Include="Schemas\dbo\StoredProcedures\Configuration_Insert.sql" />
     <Build Include="Schemas\dbo\StoredProcedures\Configuration_List.sql" />
     <Build Include="Schemas\dbo\StoredProcedures\Configuration_Update.sql" />
+    <Build Include="Schemas\dbo\Tables\Users.sql" />
+    <Build Include="Schemas\dbo\Tables\Organisation.sql" />
+    <Build Include="Schemas\dbo\Tables\UserOrganisation.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_Insert.sql" />
+    <Build Include="Schemas\dbo\Functions\CapitalizeFirstLetter.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_GetById.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\Organisation_AddUser.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\Organisation_Insert.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_GetOrganisations.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\Organisation_GetById.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_GetByEmailAddress.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_Search.sql" />
+    <Build Include="Schemas\dbo\StoredProcedures\User_PasswordUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HNG.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="HNG.Database.refactorlog" />
   </ItemGroup>
 </Project>

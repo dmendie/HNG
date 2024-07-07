@@ -1,4 +1,8 @@
 ﻿using HNG.Abstractions.Models;
+using HNG.Abstractions.Services.Infrastructure;
+using HNG.Api.Client.Helpers.Authentication;
+using HNG.Authentication.Data;
+using HNG.Authentication.Mock;
 using HNG.Web.Common.Extensions.ServiceLogs;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -25,6 +29,18 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //add service log
             services.AddScoped<ClientServiceLogAttribute>();
+
+            //setup authentication
+            if (appSettings.Settings.UseMockForAuthentication)
+            {
+                services.AddScoped<IUserAuthenticationService, MockAuthenticationContext>();
+                services.AddScoped<IAuthenticationService, MockUserAuthenticationService>();
+            }
+            else
+            {
+                services.AddScoped<IUserAuthenticationService, ClaimsAuthenticationContext>();
+                services.AddScoped<IAuthenticationService, UserAuthenticationService>();
+            }
 
             return services;
         }

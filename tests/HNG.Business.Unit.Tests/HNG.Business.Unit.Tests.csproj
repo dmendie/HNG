@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\ExternalCompanyAccounts\accounts-with-internal-01.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\ExternalCompanyAccounts\accounts-with-internal-01.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="NUnit.Analyzers" Version="4.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HNG.Abstractions\HNG.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Api.Client\HNG.Api.Client.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Authentication\HNG.Authentication.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Bootstrappers.Common\HNG.Bootstrappers.Common.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Business\HNG.Business.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Data.Mock\HNG.Data.Mock.csproj" />
+    <ProjectReference Include="..\..\src\HNG.Mappers\HNG.Mappers.csproj" />
+    <ProjectReference Include="..\HNG.Tests.Common\HNG.Tests.Common.csproj" />
+  </ItemGroup>
+
+</Project>

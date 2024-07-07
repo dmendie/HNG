@@ -4,11 +4,11 @@
     {
         public ValidationError()
         {
-            Name = "";
+            Field = "";
             Message = "";
         }
 
-        public string Name { get; set; }
+        public string Field { get; set; }
         public string Message { get; set; }
 
         #region " Helpers "
@@ -17,7 +17,7 @@
         {
             ValidationError error = new ValidationError()
             {
-                Name = name,
+                Field = name,
                 Message = message
             };
 

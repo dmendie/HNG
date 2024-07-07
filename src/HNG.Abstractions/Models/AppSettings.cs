@@ -7,12 +7,22 @@
         public SettingsObject Settings { get; set; } = new SettingsObject();
         public ConnectionStringsObject ConnectionStrings { get; set; } = new ConnectionStringsObject();
         public OpenIdSettings OpenId { get; set; } = new OpenIdSettings();
+        public JwtSetting Jwt { get; set; } = new JwtSetting();
         public IdentityServerSettings IdentityServer { get; set; } = new IdentityServerSettings();
         public SwaggerSettings Swagger { get; set; } = new SwaggerSettings();
         public CorsPolicy CorsPolicies { get; set; } = new CorsPolicy();
         public SerilogSettings Serilog { get; set; } = new SerilogSettings();
         public OpenWeatherMapSettings OpenWeatherMap { get; set; } = new OpenWeatherMapSettings();
 
+        public class JwtSetting
+        {
+            public string Key { get; set; } = null!;
+            public string Issuer { get; set; } = null!;
+            public string Audience { get; set; } = null!;
+            public string ClientId { get; set; } = null!;
+            public string TokenExpirationInMinutes { get; set; } = null!;
+            public List<string> TokenValidationParametersValidTypes { get; set; } = new List<string>();
+        }
 
         public class OpenWeatherMapSettings
         {
@@ -52,6 +62,7 @@
         public class SettingsObject
         {
             public bool UseMockForDatabase { get; set; }
+            public bool UsePostGresDBEnterprise { get; set; }
             public bool RequireSSL { get; set; }
             public bool UseMockForIntegrations { get; set; }
             public bool UseMockForAuthentication { get; set; }
@@ -61,7 +72,8 @@
             public int GeneratedCodeLifetimeMinutes { get; set; }
             public bool DisableDeviceRegistration { get; set; }
             public bool EnableDetailedErrorMessages { get; set; }
-
+            public string? MockUserId { get; set; }
+            public string? MockUserName { get; set; }
             public string? IPInfoKey { get; set; }
 
         }

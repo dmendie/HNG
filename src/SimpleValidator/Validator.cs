@@ -68,7 +68,7 @@ namespace SimpleValidator
         /// <returns></returns>
         public List<ValidationError> ErrorByName(string name)
         {
-            return Errors.Where(o => o.Name == name).ToList();
+            return Errors.Where(o => o.Field == name).ToList();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace SimpleValidator
             get
             {
                 return Errors
-                    .GroupBy(o => o.Name)
+                    .GroupBy(o => o.Field)
                     .Select(o => o.First())
                     .ToList();
             }

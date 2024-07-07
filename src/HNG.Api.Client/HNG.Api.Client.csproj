@@ -30,7 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HNG.Authentication\HNG.Authentication.csproj" />
     <ProjectReference Include="..\HNG.Bootstrappers.Common\HNG.Bootstrappers.Common.csproj" />
+    <ProjectReference Include="..\HNG.Identity\HNG.Identity.csproj" />
     <ProjectReference Include="..\HNG.Web.Common\HNG.Web.Common.csproj" />
   </ItemGroup>
 
