@@ -52,6 +52,33 @@ namespace HNG.Business.Unit.Tests
             });
         }
 
+        [Test]
+        public async Task User_Register_Successful()
+        {
+            //arrange
+            var service = BuildUserService();
+
+            var model = new UserCreationDTO
+            {
+                Email = "absolutenewuser@mail.com",
+                Firstname = "Friday",
+                Lastname = "Sona",
+                Password = "1234356",
+                Phone = "07046512342"
+            };
+
+            //act
+            var (status, actual) = await service.Register<ResponseDataDTO>(model);
+            var data = actual?.Data as UserTokenDTO;
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(status, Is.EqualTo(200));
+                Assert.That(data?.AccessToken, Is.Not.Null);
+            });
+        }
+
 
         [Test]
         public async Task User_Register_IsNot_Successful()
