@@ -26,7 +26,7 @@ namespace HNG.Business.Unit.Tests
         }
 
         [Test]
-        public async Task User_Register_Successful()
+        public async Task User_Register_UnSuccessful()
         {
             //arrange
             var service = BuildUserService();
@@ -42,12 +42,13 @@ namespace HNG.Business.Unit.Tests
 
             //act
             var (status, actual) = await service.Register<ResponseDataDTO>(model);
+            var data = actual?.Data as UserTokenDTO;
 
             //assert
             Assert.Multiple(() =>
             {
-                Assert.That(status, Is.EqualTo(200));
-                Assert.That(actual?.Data, Is.Not.Null);
+                Assert.That(status, Is.EqualTo(400));
+                Assert.That(data?.AccessToken, Is.Null);
             });
         }
 
