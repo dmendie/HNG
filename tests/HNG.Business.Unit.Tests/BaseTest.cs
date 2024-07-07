@@ -72,6 +72,15 @@ namespace HNG.Business.Unit.Tests
                     UseMockForAuthentication = true,
                     UseMockForDatabase = true,
                     UseMockForIntegrations = true
+                },
+                Jwt = new AppSettings.JwtSetting
+                {
+                    Key = "Zdo3DlxgBK3xatVOOcmIHeYlJsvhTZTk",
+                    Issuer = "https://localhost:7117/",
+                    Audience = "https://localhost:7117/",
+                    ClientId = "web",
+                    TokenExpirationInMinutes = "60",
+                    TokenValidationParametersValidTypes = ["at+jwt"]
                 }
             };
 

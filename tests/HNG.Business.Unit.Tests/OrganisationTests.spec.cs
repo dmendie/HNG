@@ -86,7 +86,6 @@ namespace HNG.Business.Unit.Tests
             var data = actual.Data as OrganisationDTO;
 
             //assert
-            //assert
             Assert.Multiple(() =>
             {
                 Assert.That(actual, Is.Not.Null);
@@ -122,6 +121,79 @@ namespace HNG.Business.Unit.Tests
                 Assert.That(exception.Validator.ErrorByName(nameof(model.Name))[0].Message, Is.EqualTo("'Name' cannot be null or empty."));
             });
         }
+
+        [Test]
+        public void Organisation_AddUser_UnSuccessful_ValidationError()
+        {
+            //arrange
+            var service = BuildService();
+            int expectedErrorCount = 1;
+            var OrgId = "some-random-id-for-validatiion-test";
+
+            var model = new OrgUserDTO
+            {
+                UserId = ""
+            };
+
+            //act
+            var exception = Assert.CatchAsync<ValidationException>(async () =>
+            {
+                var actual = await service.AddUserToOrg(OrgId, model, UserContext);
+            });
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(exception.Validator.Errors.Count, Is.EqualTo(expectedErrorCount));
+                Assert.That(exception.Validator.ErrorByName(nameof(model.UserId))[0].Message, Is.EqualTo("A valid user identifier is required*"));
+            });
+        }
+
+        [Test]
+        public void Organisation_AddUser_Not_AccessGranted_Organisation()
+        {
+            //arrange
+            var service = BuildService();
+
+            var NoAccess_OrgId = "some-random-id-for-validatiion-test"; ;
+
+            var model = new OrgUserDTO
+            {
+                UserId = "7acbba30-a989-4aa4-c702-08db3920bd4e"
+            };
+
+            ////act
+            //assert
+            var exception = Assert.CatchAsync<AccessViolationException>(async () =>
+            {
+                var actual = await service.AddUserToOrg(NoAccess_OrgId, model, UserContext);
+            });
+        }
+
+        [Test]
+        public async Task Organisation_AddUser_Successful()
+        {
+            //arrange
+            var service = BuildService();
+
+            var Access_OrgId = "89E75A35-A8E0-4B17-B89A-E4E929B0929C"; ;
+
+            var model = new OrgUserDTO
+            {
+                UserId = "7acbba30-a989-4aa4-c702-08db3920bd4e"
+            };
+
+            ////act
+            var actual = await service.AddUserToOrg(Access_OrgId, model, UserContext);
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(actual, Is.Not.Null);
+                Assert.That(actual.Status, Is.EqualTo("success"));
+            });
+        }
+
 
         public IOrganisationService BuildService()
         {
