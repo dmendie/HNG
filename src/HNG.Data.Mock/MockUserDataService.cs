@@ -147,7 +147,7 @@ namespace HNG.Data.Mock
                 new UserOrganisation()
                 {
                     UserId = "9F4614CF-12A2-4B83-B103-B53361630CF9",
-                    OrgId = "9F4614CF-12A2-4B83-B103-B53361630CF9"
+                    OrgId = "7D6A068C-16CE-4DF7-9E90-F9E4014F4B89"
                 },
                 new UserOrganisation()
                 {

@@ -118,7 +118,7 @@ namespace HNG.Data.Mock
                 },
                 new Organisation()
                 {
-                     OrgId = "7D6A468C-16CE-4DF7-9E90F9E4014F4B89",
+                     OrgId = "7D6A468C-16CE-4DF7-9E90F9EF4B89",
                      Name = "Friday's Organisation",
                      Description= "The Bobs",
                      CreatedBy = "Test",
