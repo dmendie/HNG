@@ -87,6 +87,62 @@ namespace HNG.Business.Unit.Tests
         }
 
         [Test]
+        [TestCase("", "", "", "", "", 6)]
+        [TestCase("oma@mail.com", "", "", "", "", 4)]
+        [TestCase("paul@mail.com", "Dogg", "", "", "", 3)]
+        [TestCase("pqw@mail.com", "Big Bang", "Stayyer", "", "", 2)]
+        [TestCase("mary@mail.com", "Kingley", "ome", "08097865343", "", 1)]
+        public void User_Registration_Validation_Successful(string email, string firstname, string lastname, string phone, string password, int expectedError)
+        {
+            //arrange
+            var service = BuildUserService();
+
+            var model = new UserCreationDTO
+            {
+                Email = email,
+                Firstname = firstname,
+                Lastname = lastname,
+                Password = password,
+                Phone = phone
+            };
+
+            var expectedErrorCount = expectedError;
+
+            //act
+            var exception = Assert.CatchAsync<ValidationException>(async () =>
+            {
+                var actual = await service.Register<ResponseDataDTO>(model);
+            });
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(exception.Validator.Errors.Count, Is.EqualTo(expectedErrorCount));
+            });
+        }
+
+        [Test]
+        public async Task User_Registration_Validation_On_Duplicate_Successful()
+        {
+            //arrange
+            var service = BuildUserService();
+
+            var user1Model = new UserCreationDTO { Email = "hngtester@test.com", Firstname = "Hommy", Lastname = "james", Password = "123445", Phone = "08097865433" };
+            var user2Model = new UserCreationDTO { Email = "hngtester@test.com", Firstname = "Hommy", Lastname = "james", Password = "123445", Phone = "08097865433" };
+
+            //act
+            var actualFirst = await service.Register<ResponseDataDTO>(user1Model);
+            var actualSecond = await service.Register<ResponseDataDTO>(user2Model);
+
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(actualFirst.status, Is.EqualTo(200));
+                Assert.That(actualSecond.status, Is.EqualTo(400));
+            });
+        }
+
+        [Test]
         public async Task User_Login_Successful_On_Valid_Credentials()
         {
             //arrange
