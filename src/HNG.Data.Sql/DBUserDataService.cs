@@ -87,6 +87,7 @@ namespace HNG.Data.Sql
         public async Task<string> InsertUser(IDbTransaction? transaction, string FirstName, string LastName, string Phone, string EmailAddress, string Password, string CreatedBy)
         {
             string NewUserId = Guid.NewGuid().ToString();
+            string NewOrgId = Guid.NewGuid().ToString();
 
             using DbConnection connection = GetDefaultConnection();
             await connection.OpenAsync();
@@ -94,6 +95,7 @@ namespace HNG.Data.Sql
             // specify stored procedure parameters
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", NewUserId, DbType.String, ParameterDirection.Input);
+            parameters.Add("@OrgId", NewOrgId, DbType.String, ParameterDirection.Input);
             parameters.Add("@Firstname", FirstName, DbType.String, ParameterDirection.Input);
             parameters.Add("@Lastname", LastName, DbType.String, ParameterDirection.Input);
             parameters.Add("@Phone", Phone, DbType.String, ParameterDirection.Input);

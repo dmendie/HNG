@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE dbo.User_Insert
 (
     @UserId NVARCHAR(255),
+    @OrgId NVARCHAR(255),
 	@Firstname NVARCHAR(50),
     @Lastname NVARCHAR(50),
     @Phone NVARCHAR(15),
@@ -15,7 +16,6 @@ SET NOCOUNT ON
 /* Declare local variables */
 DECLARE
 	@error int,
-    @OrgId nvarchar = CAST(NEWID() AS NVARCHAR(255)),
     @FormattedFirstname NVARCHAR(100)
 
 /* Beginning of procedure */
