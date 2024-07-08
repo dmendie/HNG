@@ -103,6 +103,12 @@ namespace HNG.Business
 
         public async Task<(int status, T?)> LoginUser<T>(UserLoginDTO userInfo)
         {
+            var validator = new Validator();
+            validator
+                .IsNotNullOrEmpty(nameof(userInfo.Email), userInfo.Email)
+                .IsNotNullOrEmpty(nameof(userInfo.Password), userInfo.Password);
+            validator.ThrowValidationExceptionIfInvalid();
+
             var data = await UserDataService.GetByEmailAddress(null, userInfo.Email);
             if (data == null)
             {

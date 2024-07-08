@@ -108,6 +108,21 @@ namespace HNG.Data.Mock
                     ModifiedBy = "User",
                     ModifiedOn = DateTime.Now
 
+                },
+                new User()
+                {
+                    UserId = "83891555-9cb0-406b-a406-cbd8ebae857c",
+                    Email = "alpha@example.com",
+                    FirstName = "Dan",
+                    LastName = "Monday",
+                    Phone = "07030141419",
+                    Password = "AQAAAAIAAYagAAAAEBwHgWeI7/t85L3GB7AXkIH8WQ0/rmTR1KoJXnu9/O9P+HmqMTrc4lA2RKmeBsanMg==",
+                    Status = Abstractions.Enums.DefaultStatusType.Disabled,
+                    CreatedBy = "Dan",
+                    CreatedOn = DateTime.Now,
+                    ModifiedBy = "Dan",
+                    ModifiedOn = DateTime.Now
+
                 }
             };
 
