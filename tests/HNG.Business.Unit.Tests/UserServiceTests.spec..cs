@@ -134,32 +134,25 @@ namespace HNG.Business.Unit.Tests
             });
         }
 
-        //[Test]
-        //public async Task User_EditUser()
-        //{
-        //    //arrange
-        //    var service = Build();
+        [Test]
+        public async Task User_Get_orgs_successful()
+        {
+            //arrange
+            var service = BuildUserService();
+            var UserId = "7acbba30-a989-4aa4-c702-08db3920bd4e";
+            int expectedcount = 2;
 
+            //act
+            var actual = await service.GetUserOrganisations<ResponseDataDTO>(UserId);
+            var data = actual.Data as OrganisationListDTO;
 
-        //    var userId = 1;
-        //    var editUser = new UpdateUserDTO
-        //    {
-        //        Username = "newUsername",
-        //        Firstname = "namefirst",
-        //        Lastname = "namelast",
-        //        EmailAddress = "namefirst@fbn.com",
-        //    };
-
-        //    //act
-        //    var actual = await service.UpdateUser<UserDTO?>(userId, editUser, GetContext);
-
-        //    //assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(actual, Is.Not.Null);
-        //        Assert.That(actual?.UserName, Is.EqualTo(editUser.Username));
-        //    });
-        //}
+            //assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(actual, Is.Not.Null);
+                Assert.That(data.Organisations.Count(), Is.EqualTo(expectedcount));
+            });
+        }
 
         //[Test]
         //public async Task User_GetUserGroups()

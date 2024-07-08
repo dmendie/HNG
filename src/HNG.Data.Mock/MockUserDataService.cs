@@ -134,6 +134,17 @@ namespace HNG.Data.Mock
                      ModifiedBy= "Test",
                      ModifiedOn= DateTime.Now,
                      Status = Abstractions.Enums.DefaultStatusType.Active
+                },
+                new Organisation()
+                {
+                     OrgId = "16CE-4DF7-9E90-F9E4014F4B89",
+                     Name = "John's Organisation",
+                     Description= "Monday Hammer Company Co",
+                     CreatedBy = "Test",
+                     CreatedOn = DateTime.Now,
+                     ModifiedBy= "Test",
+                     ModifiedOn= DateTime.Now,
+                     Status = Abstractions.Enums.DefaultStatusType.Active
                 }
             };
 
@@ -152,7 +163,7 @@ namespace HNG.Data.Mock
                 new UserOrganisation()
                 {
                     UserId = "7acbba30-a989-4aa4-c702-08db3920bd4e",
-                    OrgId = "89E75A35-A8E0-4B17-B89A-E4E929B0929C"
+                    OrgId = "16CE-4DF7-9E90-F9E4014F4B89"
                 }
             };
         }
