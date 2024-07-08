@@ -1,6 +1,0 @@
-﻿CREATE FUNCTION dbo.CapitalizeFirstLetter (@input NVARCHAR(100))
-RETURNS NVARCHAR(100)
-AS
-BEGIN
-    RETURN UPPER(LEFT(@input, 1)) + LOWER(SUBSTRING(@input, 2, LEN(@input)))
-END;
